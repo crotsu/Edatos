@@ -15,14 +15,14 @@ class Enemy {
     speedY = (int)random(4)+1;
   }
   
-  void display() {
-    move();
-    image(img, x, y);
-  }
-  
   void move() {
     x += speedX;
     y += speedY;
+  }
+  
+  void display() {
+    move();
+    image(img, x, y);
   }
   
   boolean isFinished() {

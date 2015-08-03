@@ -16,7 +16,8 @@ void setup() {
 void draw() {
   background(0);
   starfield.draw();
-
+  println(ship.hp);
+  
   if (random(150) < 2 && enemies.size()<3) {
     enemies.add(new Enemy());
   }
