@@ -2,6 +2,9 @@ Starfield starfield;
 Ship ship;
 ArrayList<Enemy> enemies;
 ArrayList<Bullet> bullets;
+ArrayList<Laser> lasers;
+boolean canPress = true;
+int timeCount = 0;
 
 void setup() {
   size(400, 600);
@@ -11,6 +14,7 @@ void setup() {
   ship = new Ship();
   enemies = new ArrayList<Enemy>();
   bullets = new ArrayList<Bullet>();
+  lasers = new ArrayList<Laser>();
 }
 
 void draw() {
@@ -42,5 +46,31 @@ void draw() {
     }
   }
   
+  if(mousePressed) {
+    if (canPress == true) {
+      if (ship.shotType == 0) {
+        lasers.add(new Laser(ship.x, ship.y, 0, -5));
+      }
+      else if (ship.shotType == 1) {
+        lasers.add(new Laser(ship.x, ship.y, 1, -10));
+        lasers.add(new Laser(ship.x, ship.y, 0, -10));
+        lasers.add(new Laser(ship.x, ship.y, -1, -10));
+      }        
+    }
+    canPress = false;
+  }
+  timeCount++;
+  if (timeCount >= ship.rappid) {
+    canPress = true;
+    timeCount = 0;
+  }
+  
+  for (int i=0; i<lasers.size(); i++) {
+    Laser laser = lasers.get(i);
+    laser.display();
+    if (laser.isFinished()) {
+      lasers.remove(i);
+    }
+  }
   ship.display(mouseX, mouseY);
 }

@@ -16,8 +16,8 @@ class Enemy {
   }
   
   void move() {
-    x += speedX;
-    y += speedY;
+    x = x + speedX;
+    y = y + speedY;
   }
   
   void display() {
