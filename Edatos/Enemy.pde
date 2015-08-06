@@ -33,15 +33,15 @@ class Enemy {
   }
   
   // 敵がウィンドウの外に出たかどうかチェック
-  boolean isFinished() {
-    boolean alive = false;
+  boolean isAlive() {
+    boolean alive = true;
     if (x<0-50 || x>width+50 || y<0-50 || y>height+50) { // // 画面外に完全に出るのを待つため範囲を50広げる
-      alive = true;
+      alive = false;
     }
     // 敵を倒したら，点数を与える
     if (hp<0) {
       score = score + 100;
-      alive = true;
+      alive = false;
     }
     return alive;
   }

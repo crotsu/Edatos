@@ -11,7 +11,9 @@ class Ship {
   boolean alive;      // 戦闘機が生きているかどうか. Trueが生存，Falseが死亡．
   int rappid;         // レーザーの発射間隔．値が小さいほど連写できる
   int shotType;       // レーザーの攻撃方法．0:通常，1:ダブル，2:3way，3:4way
-  
+  boolean canPress;   // レーザーを発射できるかどうか．Trueなら発射できる，Falseならできない．
+  int timeCount = 0;  // レーザーの発射回数に応じて，発射できるかどうかを判定
+
   // コンストラクタ(データ作成時に1度だけ行う) 
   Ship() {
     img = loadImage("ship.png");

@@ -8,10 +8,7 @@ Ship ship;                 // 戦闘機
 ArrayList<Enemy> enemies;  // 敵
 ArrayList<Laser> lasers;   // 戦闘機のレーザー
 ArrayList<Bullet> bullets; // 敵の砲弾
-int score = 0;
-boolean canPress = true;
-int timeCount = 0;
-
+int score = 0;             // スコア
 
 //-------------------------------
 // ゲーム起動時に１度だけ実行する
@@ -47,7 +44,7 @@ void draw() {
     Enemy enemy = enemies.get(i); // ArrayListから既に生成した敵を取得する
     enemy.display(); // 敵画像を表示
     // 敵が画面の外に出たら，その敵をArrayListから削除
-    if (enemy.isFinished()) {
+    if (enemy.isAlive()==false) {
       enemies.remove(i);
     }
     // 敵が弾を発射．1/60秒で3%の確率
@@ -61,7 +58,7 @@ void draw() {
   for (int i=0; i<bullets.size(); i++) {
     Bullet bullet = bullets.get(i); // ArrayListから既に生成した弾を取得する
     bullet.display(); // 弾画像を表示
-    if (bullet.isFinished()) { // 弾が画面の外に出たら，その弾をArrayListから削除
+    if (bullet.isAlive()==false) { // 弾が画面の外に出たら，その弾をArrayListから削除
       bullets.remove(i);
     }
   }
@@ -69,16 +66,15 @@ void draw() {
   
   // 戦闘機のレーザー発射
   if(mousePressed) { // マウスの左ボタンがクリックされたら
-    if (canPress == true) { // 発射できる状態なら    
-      // 各種の攻撃タイプで発射
-      shoot(); 
+    if (ship.canPress == true) { // 発射できる状態なら    
+      shoot(); // レーザー発射
     }
-    canPress = false; // 発射できないようする
+    ship.canPress = false; // 発射できないようする
   }
-  timeCount++;
-  if (timeCount >= ship.rappid) {
-    canPress = true;
-    timeCount = 0;
+  ship.timeCount++; // 1/60秒で1回カウントされる
+  if (ship.timeCount >= ship.rappid) { // ship.rappidになったら発射できるようにする
+    ship.canPress = true;
+    ship.timeCount = 0; // 0にリセット
   }
   
   
@@ -86,10 +82,11 @@ void draw() {
   for (int i=0; i<lasers.size(); i++) {
     Laser laser = lasers.get(i); // ArrayListから既に生成したレーザーを取得する
     laser.display(); // レーザー画像を表示
-    if (laser.isFinished()) { // レーザーが画面の外に出たら，そのレーザーをArrayListから削除
+    if (laser.isAlive()==false) { // レーザーが画面の外に出たら，そのレーザーをArrayListから削除
       lasers.remove(i);
     }
   }
+   
     
   // 戦闘機の動作
   selectShottype(); // スコアによって攻撃タイプを選択
