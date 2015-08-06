@@ -71,7 +71,7 @@ void draw() {
   if(mousePressed) { // マウスの左ボタンがクリックされたら
     if (canPress == true) { // 発射できる状態なら    
       // 各種の攻撃タイプで発射
-      shoot(ship.shotType); 
+      shoot(); 
     }
     canPress = false; // 発射できないようする
   }
@@ -92,15 +92,7 @@ void draw() {
   }
     
   // 戦闘機の動作
-  if (score>=500) {
-    ship.shotType = 1;
-  }
-  if (score>=1000) {
-    ship.shotType = 2;
-  }
-  if (score>=3000) {
-    ship.shotType = 3;
-  }
+  selectShottype(); // スコアによって攻撃タイプを選択
   ship.isAlive(); // 戦闘機のHPが0より大きければ生存
   if (ship.alive) {
     ship.display(mouseX, mouseY); // ウィンドウ内のマウスカーソルの座標を取得して，戦闘機を動かす
@@ -114,8 +106,24 @@ void draw() {
   
 }
 
-void shoot(int type) {
-  if (type == 0) {
+// スコアによって攻撃タイプを選択
+void selectShottype()
+{
+  if (score>=500) {
+    ship.shotType = 1;
+  }
+  if (score>=1000) {
+    ship.shotType = 2;
+  }
+  if (score>=3000) {
+    ship.shotType = 3;
+  }
+}
+
+// 攻撃タイプによって，レーザーを発射
+void shoot()
+{
+  if (ship.shotType == 0) {
     lasers.add(new Laser(ship.x, ship.y, 0, -5));
   }
   else if (ship.shotType == 1) {
@@ -137,7 +145,8 @@ void shoot(int type) {
 }
 
 // スコア表示
-void displayScore(int score) {
+void displayScore(int score)
+{
   textAlign(CENTER);
   textSize(30);
   fill(#FAE753);
@@ -145,7 +154,8 @@ void displayScore(int score) {
 }
 
 // 戦闘機のHP表示
-void displayHP() {
+void displayHP()
+{
   stroke(255);
   fill(0);
   rect(9,19,width-19,31);

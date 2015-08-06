@@ -22,7 +22,7 @@ class Ship {
     speedX = 2;   
     speedY = 2;   
     rappid = 30;  // レーザーの発射間隔．値が小さいほど連写できる
-    shotType = 3; // レーザーの攻撃方法．
+    shotType = 0; // レーザーの攻撃方法．
   }
   
   // 戦闘機の移動
