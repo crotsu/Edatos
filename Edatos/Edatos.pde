@@ -69,20 +69,9 @@ void draw() {
   
   // 戦闘機のレーザー発射
   if(mousePressed) { // マウスの左ボタンがクリックされたら
-    if (canPress == true) { // 発射できる状態なら
+    if (canPress == true) { // 発射できる状態なら    
       // 各種の攻撃タイプで発射
-      if (ship.shotType == 0) {
-        lasers.add(new Laser(ship.x, ship.y, 0, -5));
-      }
-      else if (ship.shotType == 1) {
-        lasers.add(new Laser(ship.x-10, ship.y, 0, -15));
-        lasers.add(new Laser(ship.x+10, ship.y, 0, -15));
-      }
-      else if (ship.shotType == 2) {
-        lasers.add(new Laser(ship.x, ship.y, 1, -10));
-        lasers.add(new Laser(ship.x, ship.y, 0, -10));
-        lasers.add(new Laser(ship.x, ship.y, -1, -10));
-      }
+      shoot(ship.shotType); 
     }
     canPress = false; // 発射できないようする
   }
@@ -101,18 +90,20 @@ void draw() {
       lasers.remove(i);
     }
   }
-  if (ship.hp<=0) {
-    ship.alive = false;
-    ship.x = -999;
-    ship.y = -999;
-  }
-  
+    
+  // 戦闘機の動作
   if (score>=500) {
     ship.shotType = 1;
   }
-  
+  if (score>=1000) {
+    ship.shotType = 2;
+  }
+  if (score>=3000) {
+    ship.shotType = 3;
+  }
+  ship.isAlive(); // 戦闘機のHPが0より大きければ生存
   if (ship.alive) {
-    ship.display(mouseX, mouseY);
+    ship.display(mouseX, mouseY); // ウィンドウ内のマウスカーソルの座標を取得して，戦闘機を動かす
   }
     
   // スコア表示
@@ -121,6 +112,28 @@ void draw() {
   // 戦闘機のHP表示
   displayHP();
   
+}
+
+void shoot(int type) {
+  if (type == 0) {
+    lasers.add(new Laser(ship.x, ship.y, 0, -5));
+  }
+  else if (ship.shotType == 1) {
+    lasers.add(new Laser(ship.x-10, ship.y, 0, -25));
+    lasers.add(new Laser(ship.x+10, ship.y, 0, -25));
+  }
+  else if (ship.shotType == 2) {
+    lasers.add(new Laser(ship.x, ship.y,  1, -10));
+    lasers.add(new Laser(ship.x, ship.y,  0, -10));
+    lasers.add(new Laser(ship.x, ship.y, -1, -10));
+  }
+  else if (ship.shotType == 3) {
+    lasers.add(new Laser(ship.x, ship.y,  4, -10));
+    lasers.add(new Laser(ship.x, ship.y,  2, -10));
+    lasers.add(new Laser(ship.x, ship.y,  0, -10));
+    lasers.add(new Laser(ship.x, ship.y, -2, -10));
+    lasers.add(new Laser(ship.x, ship.y, -4, -10));
+  }
 }
 
 // スコア表示

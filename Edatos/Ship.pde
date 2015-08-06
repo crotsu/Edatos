@@ -10,19 +10,19 @@ class Ship {
   int speedX, speedY; // 戦闘機のx,y軸方向の移動速度
   boolean alive;      // 戦闘機が生きているかどうか. Trueが生存，Falseが死亡．
   int rappid;         // レーザーの発射間隔．値が小さいほど連写できる
-  int shotType;       // レーザーの攻撃方法．0:通常，1:ダブル，2:3way
+  int shotType;       // レーザーの攻撃方法．0:通常，1:ダブル，2:3way，3:4way
   
   // コンストラクタ(データ作成時に1度だけ行う) 
   Ship() {
     img = loadImage("ship.png");
     alive = true;
-    maxHp = hp = 300;
+    maxHp = hp = 30000;
     x = width/2;     // 戦闘機の初期出現位置．x軸方向は真ん中
     y = 4*height/5;  // 戦闘機の初期出現位置．y軸方向は上からから4/5のところ
     speedX = 2;   
     speedY = 2;   
     rappid = 30;  // レーザーの発射間隔．値が小さいほど連写できる
-    shotType = 0; // レーザーの攻撃方法．0:通常，1:ダブル，2:3way
+    shotType = 3; // レーザーの攻撃方法．
   }
   
   // 戦闘機の移動
@@ -45,5 +45,17 @@ class Ship {
   void display(int mx, int my) {
     move(mx, my);
     image(img, x, y);
+  }
+  
+  // 戦闘機が倒されたかどうかチェック
+  boolean isAlive() {
+    boolean alive = true;
+    // 戦闘機のHPが0なら
+    if (hp<=0) {
+      alive = false;
+      x = -999;
+      y = -999;
+    }
+    return alive;
   }
 }
