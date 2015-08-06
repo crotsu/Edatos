@@ -1,26 +1,31 @@
-class Ship {
-  PImage img;
-  int hp;
-  int maxHp;
-  int x, y;
-  int speedX, speedY;
-  boolean alive;
-  int rappid;
-  int shotType;
+//---------------
+// 戦闘機（自機）
+//---------------
 
+class Ship {
+  PImage img;         // 戦闘機の画像
+  int hp;             // 戦闘機のHP
+  int maxHp;          // 戦闘機の最大HP
+  int x, y;           // 戦闘機のxy座標
+  int speedX, speedY; // 戦闘機のx,y軸方向の移動速度
+  boolean alive;      // 戦闘機が生きているかどうか. Trueが生存，Falseが死亡．
+  int rappid;         // レーザーの発射間隔．値が小さいほど連写できる
+  int shotType;       // レーザーの攻撃方法．0:通常，1:ダブル，2:3way
+  
+  // コンストラクタ(データ作成時に1度だけ行う) 
   Ship() {
     img = loadImage("ship.png");
     alive = true;
-    hp = 300;
-    maxHp = 300;
-    x = width/2;
-    y = 4*height/5;
-    speedX = 8; // 戦闘機のx方向の移動速度
-    speedY = 8; // 戦闘機のy方向の移動速度
-    rappid = 15; // 発射間隔．値が小さいほど連写できる
-    shotType = 0; // 0:通常，1:3way
+    maxHp = hp = 300;
+    x = width/2;     // 戦闘機の初期出現位置．x軸方向は真ん中
+    y = 4*height/5;  // 戦闘機の初期出現位置．y軸方向は上からから4/5のところ
+    speedX = 2;   
+    speedY = 2;   
+    rappid = 30;  // レーザーの発射間隔．値が小さいほど連写できる
+    shotType = 0; // レーザーの攻撃方法．0:通常，1:ダブル，2:3way
   }
-    
+  
+  // 戦闘機の移動
   void move(int sx, int sy) {
     if (x > sx) {
       x = x - speedX;
@@ -29,13 +34,14 @@ class Ship {
       x = x + speedX;
     }
     if (y > sy) {
-      y = y - speedY;
+      //y = y - speedY;
     }
     if (y < sy) {
-      y = y + speedY;
+      //y = y + speedY;
     }    
   }
   
+  // 戦闘機の表示
   void display(int mx, int my) {
     move(mx, my);
     image(img, x, y);
