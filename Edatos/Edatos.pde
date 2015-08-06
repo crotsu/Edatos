@@ -5,22 +5,23 @@ ArrayList<Bullet> bullets;
 ArrayList<Laser> lasers;
 boolean canPress = true;
 int timeCount = 0;
+int point = 0;
 
 void setup() {
   size(400, 600);
   imageMode(CENTER);
 
-  starfield = new Starfield(100);
+  starfield = new Starfield(100); // 背景の星の数を100にする
   ship = new Ship();
   enemies = new ArrayList<Enemy>();
   bullets = new ArrayList<Bullet>();
   lasers = new ArrayList<Laser>();
+  point = 0;
 }
 
 void draw() {
   background(0);
   starfield.draw();
-  println(ship.hp);
   
   if (random(150) < 2 && enemies.size()<3) {
     enemies.add(new Enemy());
@@ -38,6 +39,7 @@ void draw() {
     }
   }
   
+  // 弾
   for (int i=0; i<bullets.size(); i++) {
     Bullet bullet = bullets.get(i);
     bullet.display();
@@ -46,6 +48,7 @@ void draw() {
     }
   }
   
+  // レーザー
   if(mousePressed) {
     if (canPress == true) {
       if (ship.shotType == 0) {
@@ -72,5 +75,36 @@ void draw() {
       lasers.remove(i);
     }
   }
-  ship.display(mouseX, mouseY);
+  if (ship.hp<=0) {
+    ship.alive = false;
+    ship.x = -999;
+    ship.y = -999;
+  }
+  
+  if (point>=500) {
+    ship.shotType = 1;
+  }
+  
+  if (ship.alive) {
+    ship.display(mouseX, mouseY);
+  }
+  
+  //コンボとポイントの表示
+  textAlign(CENTER);
+  textSize(30);
+  fill(#FAE753);
+  text(point,50,100);
+  
+  //キャラクターのHP表示
+  stroke(255);
+  fill(0);
+  rect(9,19,width-19,31);
+  noStroke();
+  fill(0,255,0);
+  if (ship.hp>0) {
+    rect(10,20,float(width-20)*float(ship.hp)/float(ship.maxHp),30);
+  }
+  else {
+    text("Game Over",width/2,height/2);
+  }
 }
