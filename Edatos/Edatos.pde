@@ -1,8 +1,8 @@
 Starfield starfield;
-Ship ship;
-ArrayList<Enemy> enemies;
-ArrayList<Bullet> bullets;
-ArrayList<Laser> lasers;
+Ship ship;                 // 戦闘機
+ArrayList<Enemy> enemies;  // 敵
+ArrayList<Laser> lasers;   // 戦闘機のレーザー
+ArrayList<Bullet> bullets; // 敵の砲弾
 boolean canPress = true;
 int timeCount = 0;
 int point = 0;
@@ -88,14 +88,24 @@ void draw() {
   if (ship.alive) {
     ship.display(mouseX, mouseY);
   }
+    
+  // スコア表示
+  score(point);
   
-  //コンボとポイントの表示
+  // 戦闘機のHP表示
+  displayHP();
+  
+}
+
+// スコア表示
+void score(int point) {
   textAlign(CENTER);
   textSize(30);
   fill(#FAE753);
   text(point,50,100);
-  
-  //キャラクターのHP表示
+}
+
+void displayHP() {
   stroke(255);
   fill(0);
   rect(9,19,width-19,31);
